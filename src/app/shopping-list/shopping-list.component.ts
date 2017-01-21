@@ -13,6 +13,7 @@ export class ShoppingListComponent implements OnInit {
 
   ngOnInit() {
     this.items = this.sls.getItems();
+    console.log(this.items);
   }
 
 }

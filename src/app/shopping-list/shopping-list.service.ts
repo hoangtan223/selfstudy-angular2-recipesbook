@@ -12,6 +12,6 @@ export class ShoppingListService {
 
   addItems(items: Ingredient[]) {
     //push multiple data in 1 line of code
-    Array.prototype.push(this.items, items);
+    Array.prototype.push.apply(this.items, items);
   }
 }
