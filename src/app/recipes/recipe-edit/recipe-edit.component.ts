@@ -16,10 +16,10 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   private isNew: boolean;
   recipeForm: FormGroup;
 
-  constructor(private route: ActivatedRoute, 
-              private recipeService: RecipeService,
-              private formBuilder: FormBuilder,
-              private router: Router) { }
+  constructor(private route: ActivatedRoute,
+    private recipeService: RecipeService,
+    private formBuilder: FormBuilder,
+    private router: Router) { }
 
   ngOnInit() {
     this.subscription = this.route.params.subscribe(
@@ -59,9 +59,9 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   onAddIngredient(name: string, amount: number) {
     (<FormArray>this.recipeForm.controls['ingredients']).push(
       new FormGroup({
-            name: new FormControl(name, Validators.required),
-            amount: new FormControl(amount, [Validators.required, Validators.pattern("\\d+")])
-          }) 
+        name: new FormControl(name, Validators.required),
+        amount: new FormControl(amount, [Validators.required, Validators.pattern("\\d+")])
+      })
     );
   }
 
@@ -76,13 +76,15 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     let recipeIngredients: FormArray = new FormArray([]);
 
     if (!this.isNew) {
-      for (let i = 0; i < this.recipe.ingredients.length; i++) {
-        recipeIngredients.push(
-          new FormGroup({
-            name: new FormControl(this.recipe.ingredients[i].name, Validators.required),
-            amount: new FormControl(this.recipe.ingredients[i].amount, [Validators.required, Validators.pattern("\\d+")])
-          })
-        );
+      if (this.recipe.hasOwnProperty('ingredients')) {
+        for (let i = 0; i < this.recipe.ingredients.length; i++) {
+          recipeIngredients.push(
+            new FormGroup({
+              name: new FormControl(this.recipe.ingredients[i].name, Validators.required),
+              amount: new FormControl(this.recipe.ingredients[i].amount, [Validators.required, Validators.pattern("\\d+")])
+            })
+          );
+        }
       }
       recipeName = this.recipe.name;
       recipeImageUrl = this.recipe.imagePath;
